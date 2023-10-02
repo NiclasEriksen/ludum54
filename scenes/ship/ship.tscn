@@ -1,4 +1,4 @@
-[gd_scene load_steps=63 format=3 uid="uid://cvhf8flhjm65y"]
+[gd_scene load_steps=64 format=3 uid="uid://cvhf8flhjm65y"]
 
 [ext_resource type="Script" path="res://scenes/ship/ship.gd" id="1_3u8ic"]
 [ext_resource type="Texture2D" uid="uid://dsdabj1qhg783" path="res://assets/cast_iron/albedo.png" id="2_xjk7h"]
@@ -44,7 +44,7 @@ size = Vector3(0.5, 0.1, 1)
 [sub_resource type="BoxMesh" id="BoxMesh_trwa4"]
 size = Vector3(0.5, 0.5, 0.1)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ptqcq"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j7xto"]
 transparency = 1
 albedo_color = Color(0.733333, 1, 1, 0.137255)
 metallic = 0.24
@@ -53,7 +53,7 @@ roughness = 0.33
 roughness_texture = ExtResource("5_bcssw")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_adgks"]
-material = SubResource("StandardMaterial3D_ptqcq")
+material = SubResource("StandardMaterial3D_j7xto")
 size = Vector2(0.5, 0.5)
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_2pkn8"]
@@ -74,8 +74,17 @@ top_radius = 0.2
 bottom_radius = 0.2
 height = 0.5
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_voq1d"]
+albedo_texture = ExtResource("2_xjk7h")
+roughness_texture = ExtResource("4_ee21w")
+normal_enabled = true
+normal_texture = ExtResource("3_fwkwv")
+uv1_scale = Vector3(10, 10, 10)
+uv1_triplanar = true
+texture_filter = 0
+
 [sub_resource type="TorusMesh" id="TorusMesh_u04oo"]
-material = SubResource("StandardMaterial3D_pehm5")
+material = SubResource("StandardMaterial3D_voq1d")
 inner_radius = 0.2
 outer_radius = 0.5
 

@@ -39,7 +39,7 @@ var dead: bool = false
 var main_tip_shown: bool = false
 
 
-var spotted_z: float = -160.0
+var spotted_z: float = -163.0
 var breach_z: float = spotted_z - 32.0
 
 var back_light_green: Color = Color("00a730")

@@ -1,9 +1,23 @@
-[gd_scene load_steps=7 format=3 uid="uid://drmcoe2wba8fn"]
+[gd_scene load_steps=32 format=3 uid="uid://drmcoe2wba8fn"]
 
 [ext_resource type="PackedScene" uid="uid://co8kuqy2o7q57" path="res://scenes/world/terrain.tscn" id="1_ug4oc"]
 [ext_resource type="Script" path="res://scenes/world/world.gd" id="1_xnqed"]
 [ext_resource type="AudioStream" uid="uid://dyre4gcf12hne" path="res://assets/sounds/255770__andreasmustola__submarine-travel.ogg" id="2_cb8dt"]
 [ext_resource type="PackedScene" uid="uid://cvhf8flhjm65y" path="res://scenes/ship/ship.tscn" id="4_sb0t0"]
+[ext_resource type="Texture2D" uid="uid://cgkwv1q5w56hv" path="res://assets/cast_iron/normal.png" id="5_0kodg"]
+[ext_resource type="Texture2D" uid="uid://dsdabj1qhg783" path="res://assets/cast_iron/albedo.png" id="6_xwhvg"]
+[ext_resource type="Texture2D" uid="uid://b1ka3flcs4pky" path="res://assets/cast_iron/rough.png" id="7_ogjhb"]
+[ext_resource type="Material" uid="uid://dmgyegmsfu138" path="res://assets/controller_regular.tres" id="8_b0gbp"]
+[ext_resource type="Material" uid="uid://chx1ompe5lmaf" path="res://assets/ship.tres" id="9_y0im7"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_erihy"]
+
+[sub_resource type="Sky" id="Sky_v472g"]
+sky_material = SubResource("ProceduralSkyMaterial_erihy")
+
+[sub_resource type="Environment" id="Environment_2iaop"]
+background_mode = 2
+sky = SubResource("Sky_v472g")
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_jruvr"]
 seed = 1
@@ -12,8 +26,98 @@ frequency = 0.0496
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_vgfdv"]
 plane = Plane(0, 0, -1, 0)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_x13si"]
+size = Vector3(16, 32, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_k1xtp"]
+transparency = 1
+albedo_color = Color(0.686275, 1, 1, 0.368627)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_t42qw"]
+material = SubResource("StandardMaterial3D_k1xtp")
+size = Vector2(32, 32)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_s0g6s"]
+size = Vector3(32, 32, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v3j1j"]
+transparency = 1
+albedo_color = Color(0, 0.368627, 0.368627, 0.588235)
+metallic = 0.5
+roughness = 0.25
+normal_enabled = true
+normal_texture = ExtResource("5_0kodg")
+refraction_enabled = true
+uv1_triplanar = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_pbs1h"]
+material = SubResource("StandardMaterial3D_v3j1j")
+size = Vector2(128, 128)
+
+[sub_resource type="BoxMesh" id="BoxMesh_md205"]
+size = Vector3(0.1, 0.5, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_voq1d"]
+albedo_texture = ExtResource("6_xwhvg")
+roughness_texture = ExtResource("7_ogjhb")
+normal_enabled = true
+normal_texture = ExtResource("5_0kodg")
+uv1_scale = Vector3(10, 10, 10)
+uv1_triplanar = true
+texture_filter = 0
+
+[sub_resource type="BoxMesh" id="BoxMesh_iff8i"]
+size = Vector3(0.5, 0.5, 0.1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_jl4kj"]
+material = ExtResource("8_b0gbp")
+top_radius = 0.02
+bottom_radius = 0.02
+height = 1.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_n2ldr"]
+material = ExtResource("8_b0gbp")
+top_radius = 0.01
+bottom_radius = 0.01
+height = 0.4
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_5impc"]
+material = ExtResource("8_b0gbp")
+top_radius = 0.2
+bottom_radius = 0.2
+height = 0.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pehm5"]
+albedo_texture = ExtResource("6_xwhvg")
+roughness_texture = ExtResource("7_ogjhb")
+normal_enabled = true
+normal_texture = ExtResource("5_0kodg")
+uv1_scale = Vector3(10, 10, 10)
+uv1_triplanar = true
+texture_filter = 0
+
+[sub_resource type="TorusMesh" id="TorusMesh_upo4d"]
+material = SubResource("StandardMaterial3D_pehm5")
+inner_radius = 0.2
+outer_radius = 0.5
+
+[sub_resource type="BoxMesh" id="BoxMesh_tsh7q"]
+size = Vector3(0.1, 0.1, 0.1)
+
+[sub_resource type="TorusMesh" id="TorusMesh_sg6mr"]
+inner_radius = 0.02
+outer_radius = 0.03
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_dwsvf"]
+top_radius = 0.002
+bottom_radius = 0.002
+height = 0.02
+
 [node name="world" type="Node3D"]
 script = ExtResource("1_xnqed")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_2iaop")
 
 [node name="terrain" parent="." instance=ExtResource("1_ug4oc")]
 zsize = 512
@@ -55,7 +159,6 @@ mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
 [node name="CenterContainer" type="CenterContainer" parent="Control"]
-visible = false
 modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = 8
@@ -85,6 +188,39 @@ theme_override_colors/font_color = Color(0.686275, 0.686275, 0.686275, 1)
 text = "Your remains will never be seen by human eyes."
 horizontal_alignment = 1
 
+[node name="CenterContainerEnd" type="CenterContainer" parent="Control"]
+visible = false
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/CenterContainerEnd"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Control/CenterContainerEnd/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/shadow_outline_size = 3
+theme_override_font_sizes/font_size = 24
+text = "You passed out."
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="Control/CenterContainerEnd/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.686275, 0.686275, 0.686275, 1)
+theme_override_constants/shadow_outline_size = 3
+text = "When you came to, you were surrounded by debris. Alive."
+horizontal_alignment = 1
+
 [node name="Timer" type="Timer" parent="."]
 wait_time = 2.0
 one_shot = true
@@ -93,6 +229,109 @@ one_shot = true
 wait_time = 5.0
 one_shot = true
 
+[node name="Goal" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.26971, 5.8607, -288.193)
+input_ray_pickable = false
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Goal"]
+shape = SubResource("BoxShape3D_x13si")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Goal"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("PlaneMesh_t42qw")
+
+[node name="PreGoal" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.5523, -276.731)
+input_ray_pickable = false
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PreGoal"]
+shape = SubResource("BoxShape3D_s0g6s")
+
+[node name="Surface" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 123.803, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Surface"]
+mesh = SubResource("PlaneMesh_pbs1h")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Surface"]
+transform = Transform3D(0.334078, -0.531439, 0.778437, 0.909853, 0.397461, -0.119131, -0.246088, 0.748062, 0.616315, 0.25, 0, -2.0403)
+mesh = SubResource("BoxMesh_md205")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_voq1d")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="Surface"]
+transform = Transform3D(1, 0, 0, 0, -0.00530579, -0.999986, 0, 0.999986, -0.00530579, 0, -0.0326462, 0.5)
+mesh = SubResource("BoxMesh_iff8i")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_voq1d")
+
+[node name="MeshInstance3D8" type="MeshInstance3D" parent="Surface"]
+transform = Transform3D(0.0655773, 0.997847, -4.36173e-08, 0, -4.37114e-08, -1, -0.997847, 0.0655773, -2.86648e-09, 0.175, 0.00345612, -1.31733)
+mesh = SubResource("CylinderMesh_jl4kj")
+
+[node name="MeshInstance3D9" type="MeshInstance3D" parent="Surface"]
+transform = Transform3D(-0.261044, 0.965327, -4.21958e-08, 0, -4.37114e-08, -1, -0.965327, -0.261044, 1.14106e-08, -0.604133, -0.00564575, -0.158025)
+mesh = SubResource("CylinderMesh_jl4kj")
+
+[node name="MeshInstance3D10" type="MeshInstance3D" parent="Surface"]
+transform = Transform3D(0.926259, -0.375076, -0.0369087, 0, 0.0979302, -0.995193, 0.376887, 0.921807, 0.0907088, 0.175, 0.00663757, 0)
+mesh = SubResource("CylinderMesh_jl4kj")
+
+[node name="MeshInstance3D11" type="MeshInstance3D" parent="Surface"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -1.42423, 0.0251923, 0)
+mesh = SubResource("CylinderMesh_jl4kj")
+
+[node name="MeshInstance3D13" type="MeshInstance3D" parent="Surface"]
+transform = Transform3D(0.0563791, 0.864648, -0.499205, -0.998409, 0.0488257, -0.0281896, 1.25679e-08, 0.5, 0.866025, 0.567515, 0.00354767, 0)
+mesh = SubResource("CylinderMesh_n2ldr")
+
+[node name="MeshInstance3D14" type="MeshInstance3D" parent="Surface"]
+transform = Transform3D(1, 0, 0, 0, -0.0535385, -0.998566, 0, 0.998566, -0.0535385, 1.09755, 0.0039978, 0)
+mesh = SubResource("CylinderMesh_n2ldr")
+
+[node name="MeshInstance3D12" type="MeshInstance3D" parent="Surface"]
+transform = Transform3D(-0.744113, -0.600749, -0.292226, 0, 0.43743, -0.899253, 0.668053, -0.669146, -0.325497, -1.4988, -0.191933, 0.177679)
+mesh = SubResource("CylinderMesh_5impc")
+
+[node name="MeshInstance3D15" type="MeshInstance3D" parent="Surface"]
+transform = Transform3D(1, 0, 0, 0, 0.606613, -0.794997, 0, 0.794997, 0.606613, 0.801714, -0.393539, -0.525247)
+mesh = SubResource("TorusMesh_upo4d")
+
+[node name="MeshInstance3D16" type="MeshInstance3D" parent="Surface"]
+transform = Transform3D(0.688469, 0.725266, 0, -0.725266, 0.688469, 0, 0, 0, 1, 0.827393, 0, 0)
+mesh = SubResource("BoxMesh_tsh7q")
+surface_material_override/0 = ExtResource("9_y0im7")
+
+[node name="Wheel" type="MeshInstance3D" parent="Surface"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.00241089, 1.13748)
+mesh = SubResource("TorusMesh_sg6mr")
+surface_material_override/0 = ExtResource("8_b0gbp")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Surface/Wheel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.011, 0.025)
+mesh = SubResource("CylinderMesh_dwsvf")
+surface_material_override/0 = ExtResource("8_b0gbp")
+
+[node name="Camera3D" type="Camera3D" parent="Surface"]
+transform = Transform3D(1, 0, 0, 0, 0.998663, 0.0516911, 0, -0.0516911, 0.998663, 0, 0.178726, 1.51948)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Surface"]
+transform = Transform3D(-0.875574, 1.30471e-08, 0.483084, 0.219045, 0.891292, 0.397012, -0.430568, 0.453431, -0.780392, 0, 11.1614, 0)
+
+[node name="CameraChangeTimer" type="Timer" parent="."]
+wait_time = 1.5
+one_shot = true
+
+[node name="EndGameTimer" type="Timer" parent="."]
+wait_time = 6.0
+one_shot = true
+
 [connection signal="died" from="Ship" to="." method="_on_ship_died"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="timeout" from="Timer2" to="." method="_on_timer_2_timeout"]
+[connection signal="body_entered" from="Goal" to="." method="_on_goal_body_entered"]
+[connection signal="body_entered" from="PreGoal" to="." method="_on_pre_goal_body_entered"]
+[connection signal="timeout" from="CameraChangeTimer" to="." method="_on_camera_change_timer_timeout"]
+[connection signal="timeout" from="EndGameTimer" to="." method="_on_end_game_timer_timeout"]
