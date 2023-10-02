@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://drmcoe2wba8fn"]
+[gd_scene load_steps=33 format=3 uid="uid://drmcoe2wba8fn"]
 
 [ext_resource type="PackedScene" uid="uid://co8kuqy2o7q57" path="res://scenes/world/terrain.tscn" id="1_ug4oc"]
 [ext_resource type="Script" path="res://scenes/world/world.gd" id="1_xnqed"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://b1ka3flcs4pky" path="res://assets/cast_iron/rough.png" id="7_ogjhb"]
 [ext_resource type="Material" uid="uid://dmgyegmsfu138" path="res://assets/controller_regular.tres" id="8_b0gbp"]
 [ext_resource type="Material" uid="uid://chx1ompe5lmaf" path="res://assets/ship.tres" id="9_y0im7"]
+[ext_resource type="Texture2D" uid="uid://bhctpfbup1siu" path="res://assets/crosshair.png" id="10_dkpof"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_erihy"]
 
@@ -327,6 +328,27 @@ one_shot = true
 [node name="EndGameTimer" type="Timer" parent="."]
 wait_time = 6.0
 one_shot = true
+
+[node name="Control2" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="Control2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="Control2/CenterContainer"]
+layout_mode = 2
+texture = ExtResource("10_dkpof")
 
 [connection signal="died" from="Ship" to="." method="_on_ship_died"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

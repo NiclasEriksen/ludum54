@@ -11,9 +11,11 @@ func _ready():
 	fade_tween.play()
 	$WorldEnvironment.environment.background_energy_multiplier = 0.0
 	$Surface/DirectionalLight3D.hide()
+	$Control2.show()
 
 
 func _on_ship_died(cause):
+	$Control2.hide()
 	var fade_tween: Tween = create_tween()
 	fade_tween.tween_property($Control/FadeRect, "color", Color(0,0,0,1), 1.0)
 	fade_tween.play()
@@ -49,6 +51,7 @@ func _on_pre_goal_body_entered(body):
 
 
 func _on_goal_body_entered(body):
+	$Control2.hide()
 	emit_signal("game_won")
 	$Ship.dead = true
 	var fade_tween: Tween = create_tween()
