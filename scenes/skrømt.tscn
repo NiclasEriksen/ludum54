@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://bs7jeby3iogf5"]
+
+[ext_resource type="PackedScene" uid="uid://vk8dl0ob0i2n" path="res://assets/skrømt.glb" id="1_xutef"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_w8hs7"]
+albedo_color = Color(0.0705882, 0.152941, 0.152941, 1)
+
+[node name="skrømt" instance=ExtResource("1_xutef")]
+
+[node name="OuterSheet" parent="." index="0"]
+transform = Transform3D(1.25, 0, 0, 0, 1.25, 0, 0, 0, 1.25, 0, 1.22984, 0.104854)
+surface_material_override/0 = SubResource("StandardMaterial3D_w8hs7")
+
+[node name="OuterSheet_001" parent="." index="1"]
+transform = Transform3D(1.25, 0, 0, 0, 1.25, 0, 0, 0, 1.25, 0, 1.13745, 0.104854)
+surface_material_override/0 = SubResource("StandardMaterial3D_w8hs7")
+
+[node name="OuterSheet_002" parent="." index="2"]
+transform = Transform3D(1.25, 0, 0, 0, 1.25, 0, 0, 0, 1.25, 0, 0.960438, 0.104854)
+surface_material_override/0 = SubResource("StandardMaterial3D_w8hs7")

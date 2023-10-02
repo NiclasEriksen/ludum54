@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://bwdyyum16wvb3"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_o717m"]
+[ext_resource type="PackedScene" uid="uid://c70e7ia3b1vl" path="res://scenes/menu.tscn" id="4_u3aa8"]
+
+[node name="Main" type="Node3D"]
+script = ExtResource("1_o717m")
+world_path = NodePath("")
+
+[node name="Menu" parent="." instance=ExtResource("4_u3aa8")]
+process_mode = 3
+z_index = 10
+z_as_relative = false
+
+[connection signal="new_game" from="Menu" to="." method="_on_menu_new_game"]

@@ -1,0 +1,98 @@
+[gd_scene load_steps=7 format=3 uid="uid://drmcoe2wba8fn"]
+
+[ext_resource type="PackedScene" uid="uid://co8kuqy2o7q57" path="res://scenes/world/terrain.tscn" id="1_ug4oc"]
+[ext_resource type="Script" path="res://scenes/world/world.gd" id="1_xnqed"]
+[ext_resource type="AudioStream" uid="uid://dyre4gcf12hne" path="res://assets/sounds/255770__andreasmustola__submarine-travel.ogg" id="2_cb8dt"]
+[ext_resource type="PackedScene" uid="uid://cvhf8flhjm65y" path="res://scenes/ship/ship.tscn" id="4_sb0t0"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_jruvr"]
+seed = 1
+frequency = 0.0496
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_vgfdv"]
+plane = Plane(0, 0, -1, 0)
+
+[node name="world" type="Node3D"]
+script = ExtResource("1_xnqed")
+
+[node name="terrain" parent="." instance=ExtResource("1_ug4oc")]
+zsize = 512
+ysize = 24
+terrain_color = Color(0.227451, 0.27451, 0.231373, 1)
+big_noise = SubResource("FastNoiseLite_jruvr")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_cb8dt")
+volume_db = -6.0
+pitch_scale = 0.85
+autoplay = true
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("WorldBoundaryShape3D_vgfdv")
+
+[node name="Ship" parent="." instance=ExtResource("4_sb0t0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.27722, 6.94, -0.892257)
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="FadeRect" type="ColorRect" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="CenterContainer" type="CenterContainer" parent="Control"]
+visible = false
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/CenterContainer"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Control/CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Your vessel imploded."
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="Control/CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.686275, 0.686275, 0.686275, 1)
+text = "Your remains will never be seen by human eyes."
+horizontal_alignment = 1
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="Timer2" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[connection signal="died" from="Ship" to="." method="_on_ship_died"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="Timer2" to="." method="_on_timer_2_timeout"]

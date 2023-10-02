@@ -1,0 +1,75 @@
+[gd_scene load_steps=4 format=3 uid="uid://c70e7ia3b1vl"]
+
+[ext_resource type="Script" path="res://scenes/menu.gd" id="1_vndka"]
+[ext_resource type="Texture2D" uid="uid://chxgi88jerkmi" path="res://assets/logo.png" id="2_sdmfo"]
+
+[sub_resource type="Theme" id="Theme_w4nu1"]
+default_font_size = 24
+HBoxContainer/constants/separation = 16
+
+[node name="Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_w4nu1")
+script = ExtResource("1_vndka")
+
+[node name="CenterContainer2" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 40.0
+grow_horizontal = 2
+
+[node name="TextureRect" type="TextureRect" parent="CenterContainer2"]
+custom_minimum_size = Vector2(0, 250)
+layout_mode = 2
+texture = ExtResource("2_sdmfo")
+stretch_mode = 3
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="NewButton" type="Button" parent="CenterContainer/HBoxContainer"]
+layout_mode = 2
+text = "NEW ATTEMPT"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "VOLUME"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="VolumeSlider" type="HSlider" parent="CenterContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+max_value = 1.0
+step = 0.05
+value = 1.0
+
+[node name="QuitButton" type="Button" parent="CenterContainer/HBoxContainer"]
+layout_mode = 2
+text = "QUIT"
+
+[connection signal="pressed" from="CenterContainer/HBoxContainer/NewButton" to="." method="_on_new_button_pressed"]
+[connection signal="value_changed" from="CenterContainer/HBoxContainer/VBoxContainer/VolumeSlider" to="." method="_on_volume_slider_value_changed"]
+[connection signal="pressed" from="CenterContainer/HBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
